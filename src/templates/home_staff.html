@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <script src='../static/Chart.min.js'></script>
+    <link href="../static/style_table.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../static/templatemo-style.css" rel="stylesheet" type="text/css" media="all" />
+
+</head>
+<body>
+
+    <h1>Welcome {{username}}</h1>
+
+    {{ status }}
+
+    <h2>Upcoming flights: </h2>
+
+<style type="text/css">
+	table, th, td{
+		border: 1px solid black;
+	}
+</style>
+
+<table id="hor-minimalist-a">
+    <th>Flight Number</th>
+	<th>Departure Airport</th>
+    <th>Departure Time</th>
+	<th>Arrival Airport</th>
+    <th>Arrival Time</th>
+    <th>Status</th>
+
+
+{% for line in flights %}
+	<tr>
+        <td>{{line.flight_num}}</td>
+		<td>{{line.departure_airport}}</td>
+		<td>{{line.departure_time}}</td>
+		<td>{{line.arrival_airport}}</td>
+        <td>{{line.arrival_time}}</td>
+		<td>{{line.status}}</td>
+
+	</tr>
+{% endfor %}
+</table>
+
+    <h2>View All Flights of Your Airline:</h2>
+
+<!--<form action="/staff_view_flights" method="POST">-->
+    <!--Departure Airport: <input type="text" name="departure_airport" required/> </br>-->
+    <!--Starts on: <input type="date" name="departure_time" placeholder="yyyy-mm-dd" required/> </br>-->
+    <!--Ends on: <input type="date" name="arrival_time" placeholder="yyyy-mm-dd" required/> </br>-->
+    <!--Arrival Airport: <input type="text" name="arrival_airport" required/> </br>-->
+    <!--<input type="submit" value= View />-->
+<!--</form>-->
+
+<div>
+    <form action="/staff_view_flights" method="POST" class="tm-search-form tm-section-pad-2">
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
+                <label for="1">Departure Airport:</label>
+                <input id="1" type="text" name="departure_airport" class="form-control" placeholder="airport name or city" required/>
+            </div>
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
+                <label for="4">Arrival Airport:</label>
+                <input id="4" type="text" name="arrival_airport" class="form-control" placeholder="airport name or city" required/>
+            </div>
+        </div>
+        <br><br><br><br><br>
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
+                <label for="2">Start on:</label>
+                <input id="2" name="departure_time" type="date" class="form-control" placeholder="yyyy-mm-dd" required>
+            </div>
+
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
+                <label for="3">Ends on:</label>
+                <input id="3" name="arrival_time" type="date" class="form-control" placeholder="yyyy-mm-dd" required>
+            </div>
+        </div>
+        <input type="submit" value= View />
+    </form>
+</div>
+
+    <h2>View All Flights of a Customer:</h2>
+
+<div>
+    <form action="/customer_flights" method="POST" class="tm-search-form tm-section-pad-2">
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
+                <label for="1">Customer Email:</label>
+                <input id="1" type="text" name="customer_email" class="form-control" required/>
+            </div>
+        </div>
+        <input type="submit" value= View />
+    </form>
+</div>
+
+    <h2>Create a Flight:</h2>
+
+
+<div>
+    <form action="/create_flights" method="POST" class="tm-search-form tm-section-pad-2" style="padding: 25px 25px 300px">
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
+                <label for="9">Departure Time:</label>
+                <input id="9" name="departure_time" type="date" class="form-control" placeholder="yyyy-mm-dd" required>
+            </div>
+
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
+                <label for="10">Arrival Time:</label>
+                <input id="10" name="arrival_time" type="date" class="form-control" placeholder="yyyy-mm-dd" required>
+            </div>
+        </div>
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
+                <label for="6">Departure Airport</label>
+                <input id="6" type="text" name="departure_airport" class="form-control" placeholder="airport name (e.g. PVG)" required/>
+            </div>
+        </div>
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
+                <label for="7">Arrival Airport</label>
+                <input id="7" type="text" name="arrival_airport" class="form-control" placeholder="airport name (e.g. PVG)" required/>
+            </div>
+        </div>
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
+                <label for="5">Flight Number</label>
+                <input id="5" type="text" name="flight_number" class="form-control" required/>
+            </div>
+        </div>
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
+                <label for="8">Price</label>
+                <input id="8" type="text" name="price" class="form-control" required/>
+            </div>
+        </div>
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
+                <label for="12">Airplane ID</label>
+                <input id="12" type="text" name="airplane_id" class="form-control" required/>
+            </div>
+        </div>
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
+                <label for="11">Status</label>
+                <input id="11" type="text" list="itemlist" name="status" class="form-control" required/>
+            </div>
+        </div>
+        <datalist id="itemlist">
+            <option>delayed</option>
+            <option>upcoming</option>
+        </datalist>
+        <!--Flight Number: <input type="text" name="flight_number" required/> </br>-->
+        <!--Departure Airport: <input type="text" name="departure_airport" required/> </br>-->
+        <!--Departure Time: <input type="date" name="departure_time" required/> </br>-->
+        <!--Arrival Airport: <input type="text" name="arrival_airport" required/> </br>-->
+        <!--Arrival Time: <input type="date" name="arrival_time" required/> </br>-->
+        <!--Price: <input type="text" name="price" required/> </br>-->
+        <!--Status: <input type="text" list='itemlist' name="status" required/> </br>-->
+        <!--Airplane ID: <input type="text" name="airplane_id" required/> </br>-->
+        <input type="submit" value= 'Create Flight' >
+    </form>
+</div>
+
+    <h2>Change the status of an existing flight:</h2>
+
+<div>
+    <form action="/change_status" method="POST" class="tm-search-form tm-section-pad-2">
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
+                <label for="14">Flight Number:</label>
+                <input id="14" name="flight_number" type="text" class="form-control" placeholder="" required>
+            </div>
+        </div>
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
+                <label for="15">New Status:</label>
+                <input id="15" name="status" list='itemlist2' type="text" class="form-control" placeholder="" required>
+            </div>
+        </div>
+        <br><br><br><br><br>
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
+                <label for="13">Departure Time:</label>
+                <input id="13" name="departure_time" type="date" class="form-control" placeholder="yyyy-mm-dd" required>
+            </div>
+        </div>
+        <!--Flight Number: <input type="text" name="flight_number" required/> </br>-->
+        <!--Departure Time: <input type="date" name="departure_time" required/> </br>-->
+        <!--New Status: <input type="text" list='itemlist2' name="status" required/> </br>-->
+        <datalist id="itemlist2">
+            <option>delayed</option>
+            <option>upcoming</option>
+        </datalist>
+        <input type="submit" value= 'Change Flight Status' >
+    </form>
+</div>
+
+    <h2>Add an airplane into the system:</h2>
+
+<div>
+    <form action="/add_airplane" method="POST" class="tm-search-form tm-section-pad-2">
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1" style="width: 30%">
+                <label for="16">Airplane ID:</label>
+                <input id="16" name="airplane_id" type="text" class="form-control" placeholder="" required>
+            </div>
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1" style="width: 40%">
+                <label for="17">Number of Seats:</label>
+                <input id="17" name="seats" type="text" class="form-control" placeholder="" required>
+            </div>
+            <input type="submit" value= 'Add an Airplane' >
+        </div>
+    </form>
+</div>
+
+
+
+<!--<form action="/add_airplane" method="POST">-->
+    <!--&lt;!&ndash;Airplane ID: <input type="text" name="airplane_id" required/> </br>&ndash;&gt;-->
+    <!--Number of Seats: <input type="text" name="seats" required/> </br>-->
+    <!--<input type="submit" value= 'Add and Airplane' >-->
+<!--</form>-->
+
+
+<h2>Add an airport into the system:</h2>
+
+<div>
+    <form action="/add_airport" method="POST" class="tm-search-form tm-section-pad-2">
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1" style="width: 50%">
+                <label for="18">Airport Name:</label>
+                <input id="18" name="airport_name" type="text" class="form-control" placeholder="three capitalized letters" maxlength="3" required>
+            </div>
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1" style="width: 30%">
+                <label for="19">Airport City:</label>
+                <input id="19" name="airport_city" type="text" class="form-control" placeholder="" required>
+            </div>
+        </div>
+        <input type="submit" value= 'Add an Airport' >
+    </form>
+</div>
+
+
+
+
+<!--<form action="/add_airport" method="POST">-->
+    <!--Airport Name (three capitalized letters): <input type="text" name="airport_name" required/> </br>-->
+    <!--Airport City: <input type="text" name="airport_city" required/> </br>-->
+    <!--<input type="submit" value= 'Add an Airport' >-->
+<!--</form>-->
+
+
+
+    <h2>Top 5 booking agents (based on number of tickets sales) in the past month:</h2>
+<table id="hor-minimalist-a">
+    <th>Booking agents</th>
+    <th>Number of tickets</th>
+
+{% for line in agent_count_month %}
+	<tr>
+        <td>{{line.booking_agent_id}}</td>
+		<td>{{line.number}}</td>
+
+	</tr>
+{% endfor %}
+</table>
+
+    <h2>Top 5 booking agents (based on number of tickets sales) for the past year:</h2>
+<table id="hor-minimalist-a">
+    <th>Booking agents</th>
+    <th>Number of tickets</th>
+
+{% for line in agent_count_year %}
+	<tr>
+        <td>{{line.booking_agent_id}}</td>
+		<td>{{line.number}}</td>
+
+	</tr>
+{% endfor %}
+</table>
+
+    <h2>Top 5 booking agents (based on the amount of commission) for the past year:</h2>
+<table id="hor-minimalist-a">
+    <th>Booking agents</th>
+    <th>Commission</th>
+
+{% for line in commission %}
+	<tr>
+        <td>{{line.booking_agent_id}}</td>
+		<td>{{line.commission}}</td>
+
+	</tr>
+{% endfor %}
+</table>
+
+    <h2>The most frequent customers for the past year:</h2>
+<table id="hor-minimalist-a">
+    <th>Customers</th>
+    <th>Number of tickets</th>
+
+{% for line in most_freq_customer %}
+	<tr>
+        <td>{{line.customer_email}}</td>
+		<td>{{line.number}}</td>
+
+	</tr>
+{% endfor %}
+</table>
+
+
+	<h2>Total amounts of ticket sold in the past year: {{tickets_last_year}}</h2>
+	<h2>Total amounts of ticket sold in the past month: {{tickets_last_month}}</h2>
+
+    <h2>Month wise tickets sold:</h2>
+<canvas id="chart" width="600" height="400"></canvas>
+<script>
+   // bar chart data
+   var barData = {
+   labels : [{% for item in labels %}
+                  "{{item}}",
+              {% endfor %}],
+   datasets : [
+      {
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+         data : [{% for item in values %}
+                      {{item}},
+                    {% endfor %}]
+      }
+      ]
+   }
+
+   // get bar chart canvas
+   var mychart = document.getElementById("chart").getContext("2d");
+
+   steps = 10;
+   max = 10;
+   // draw bar chart
+   new Chart(mychart).Bar(barData, {
+        scaleOverride: true,
+        scaleSteps: steps,
+        scaleStepWidth: Math.ceil(max / steps),
+        scaleStartValue: 0,
+        scaleShowVerticalLines: true,
+        scaleShowGridLines : true,
+        barShowStroke : true,
+        scaleShowLabels: true
+   });
+</script>
+
+
+
+    <h2>View reports:</h2>
+
+<!--<form action="/view_report" method="POST">-->
+	<!--Starts from: <input type="date" name = "start_date" placeholder="yyyy-mm-dd" required/> </br>-->
+	<!--Ends at: <input type="date" name = "end_date" placeholder="yyyy-mm-dd" required/> </br>-->
+	<!--<input type="submit" value = View />-->
+	<!--{% if error %}-->
+		<!--<p class="error"><strong>Error:</strong> {{error}}</p>-->
+	<!--{% endif %}-->
+<!--</form>-->
+
+
+<div>
+    <form action="/view_report" method="POST" class="tm-search-form tm-section-pad-2">
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
+                <label for="20">Start from:</label>
+                <input id="20" name="start_date" type="date" class="form-control" placeholder="yyyy-mm-dd" required>
+            </div>
+
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
+                <label for="21">Ends at:</label>
+                <input id="21" name="end_date" type="date" class="form-control" placeholder="yyyy-mm-dd" required>
+            </div>
+        </div>
+        <input type="submit" value= View />
+        {% if error %}
+            <p class="error"><strong>Error:</strong> {{error}}</p>
+        {% endif %}
+    </form>
+</div>
+
+
+
+
+
+
+    <h2>Comparison of revenue earned in the past year: </h2>
+<canvas id="chart2" width="600" height="400"></canvas>
+<script>
+   var pieData = [
+            {% for labels,values,colors in set %}
+                {
+                    value: {{values}},
+                    label: "{{labels}}",
+                    color : "{{colors}}"
+                },
+                {% endfor %}
+
+
+         ];
+
+   // get bar chart canvas
+   var mychart_2 = document.getElementById("chart2").getContext("2d");
+
+   steps = 10;
+   max = 10;
+   // draw pie chart
+   new Chart(mychart_2).Pie(pieData);
+</script>
+
+    <h2>Comparison of revenue earned in the past month: </h2>
+<canvas id="chart3" width="600" height="400"></canvas>
+<script>
+   var pieData = [
+            {% for labels,values,colors in set_month %}
+                {
+                    value: {{values}},
+                    label: "{{labels}}",
+                    color : "{{colors}}"
+                },
+                {% endfor %}
+
+
+         ];
+
+   // get bar chart canvas
+   var mychart_3 = document.getElementById("chart3").getContext("2d");
+
+   steps = 10;
+   max = 10;
+   // draw pie chart
+   new Chart(mychart_3).Pie(pieData);
+
+</script>
+
+
+    <h2>Top 3 destinations for the past year:</h2>
+<table id="hor-minimalist-a">
+    <th>Destinations</th>
+    <th>Number of visits</th>
+
+{% for line in top_destinations %}
+	<tr>
+        <td>{{line.airport_city}}</td>
+		<td>{{line.visits}}</td>
+
+	</tr>
+{% endfor %}
+</table>
+
+    <h2>Top 3 destinations for last 3 months:</h2>
+<table id="hor-minimalist-a">
+    <th>Destinations</th>
+    <th>Number of visits</th>
+
+{% for line in top_destinations_3M %}
+	<tr>
+        <td>{{line.airport_city}}</td>
+		<td>{{line.visits}}</td>
+
+	</tr>
+{% endfor %}
+
+</table>
+
+<a href="/">Logout</a>
+
+</body>
+
+
+</html>

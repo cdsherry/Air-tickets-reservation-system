@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src='../static/Chart.min.js'></script>
+    <link href="../static/style_table.css" rel="stylesheet" type="text/css" media="all" />
+
+    <title>View All Flights</title>
+</head>
+
+<body>
+{{ status }}
+<br>
+    <h2>Flights:</h2>
+
+<style type="text/css">
+	table, th, td{
+		border: 1px solid black;
+	}
+</style>
+
+<table id="hor-minimalist-a">
+    <th>Flight Number</th>
+	<th>Departure Airport</th>
+    <th>Departure Time</th>
+	<th>Arrival Airport</th>
+    <th>Arrival Time</th>
+    <th>Status</th>
+
+
+{% for line in flights %}
+	<tr>
+        <td>{{line.flight_num}}</td>
+		<td>{{line.departure_airport}}</td>
+		<td>{{line.departure_time}}</td>
+		<td>{{line.arrival_airport}}</td>
+        <td>{{line.arrival_time}}</td>
+		<td>{{line.status}}</td>
+	</tr>
+{% endfor %}
+</table>
+
+<a href="/home_customer">Go back</a>
+
+</body>
+</html>

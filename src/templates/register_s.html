@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Air Ticket Reservation System</title>
+
+    <meta charset="UTF-8">
+    <title>Airplane Ticket System</title>
+    <script src="../static/jquery.min.js">
+    </script>
+
+
+
+	<!-- Meta-Tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!-- //Meta-Tags -->
+
+	<!-- Custom Theme files -->
+	<link href="../static/style.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="../static/font-awesome.css" rel="stylesheet"> <!-- Font-Awesome-Icons-CSS -->
+	<!-- //Custom Theme files -->
+
+	<!-- web font -->
+	<link href="//fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&amp;subset=latin-ext" rel="stylesheet">
+	<!-- //web font -->
+
+</head>
+<body>
+	<!-- main -->
+	<div class="main">
+		<h1>Air TIcket Reservation System</h1>
+		<div class="main-w3lsrow">
+			<!-- login form -->
+			<div class="login-form login-form-left">
+				<div class="agile-row">
+					<div class="head">
+						<h2>Airplane Ticket System</h2>
+						<span class="fa fa-lock"></span>
+					</div>
+					<div class="clear"></div>
+
+                    {{ status }}
+                    <div class="login-agileits-top">
+                        <form action="/registerAuth_s" method="POST">
+                            Username:                <input type="text" name = "username" maxlength="50" placeholder="username" required/> </br>
+                            Password:            <input type="password" name = "password" maxlength="50" placeholder="password" required/></br>
+                            First Name:     <input type="text" name = "first_name" maxlength="50" placeholder="first name" required/> </br>
+                            Last Name:     <input type="text" name = "last_name" maxlength="50" placeholder="last name" required/> </br>
+                            Airline Name:        <input type="text" name = "airline_name" maxlength="50" placeholder="airline name" required/> </br>
+                            date of birth:<br>       <input type="date" name = "date_of_birth" placeholder="yyyy-mm-dd" required/> </br><br>
+
+                            <input type="submit" value = Register />
+                            {% if error %}
+                                <p class="error"><strong>Error:</strong> {{error}}</p>
+                            {% endif %}
+                        </form>
+                    </div>
+
+					<div class="login-agileits-bottom">
+                        <h6><a href="/">Go back</a></h6>
+					</div>
+                </div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

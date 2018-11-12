@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <script src='../static/Chart.min.js'></script>
+    <link href="../static/style_table.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../static/templatemo-style.css" rel="stylesheet" type="text/css" media="all" />
+
+</head>
+<body>
+
+    <h1>Welcome, {{username}}!</h1>
+
+{#<form action="/track" method="POST">#}
+{#	<input type="text" name = "date" placeholder="post" required/> </br>#}
+{#	<input type="submit" value = Track />#}
+{#</form>#}
+
+
+<style type="text/css">
+	table, th, td{
+		border: 1px solid black;
+	}
+    .main {
+    padding: 3em 0 0;
+    text-align: center;
+    }
+    .login-form input[type="text"], .login-form input[type="password"] {
+    outline: none;
+    font-size: .9em;
+    letter-spacing: 1px;
+    color: #666;
+    padding: 1em 1em;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 1em;
+    -webkit-appearance: none;
+    display: block;
+    border: 1px solid #dde0df;
+    background: #e4eae7;
+    font-family: 'Raleway', sans-serif;
+}
+</style>
+
+<a href="search2">Search</a>
+
+<div>
+    <h2>View My Flights:</h2>
+    <form action="/customer_view_flights" method="POST" class="tm-search-form tm-section-pad-2">
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
+                <label for="1">Departure Airport:</label>
+                <input id="1" type="text" name="departure_airport" class="form-control" placeholder="airport name or city" required/>
+            </div>
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
+                <label for="4">Arrival Airport:</label>
+                <input id="4" type="text" name="arrival_airport" class="form-control" placeholder="airport name or city" required/>
+            </div>
+        </div>
+        <br><br><br><br><br>
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
+                <label for="2">Start on:</label>
+                <input id="2" name="departure_time" type="date" class="form-control" placeholder="yyyy-mm-dd" required>
+            </div>
+
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
+                <label for="3">Ends on:</label>
+                <input id="3" name="arrival_time" type="date" class="form-control" placeholder="yyyy-mm-dd" required>
+            </div>
+        </div>
+        <!--Starts on: <input type="date" name="departure_time" placeholder="yyyy-mm-dd" required/>-->
+        <!--Ends on: <input type="date" name="arrival_time" placeholder="yyyy-mm-dd" required/>-->
+        <!--Arrival Airport: <input type="text" name="arrival_airport" required/> </br>-->
+        <br>
+        <input type="submit" value= View />
+    </form>
+</div>
+
+
+<div>
+    <h2>Upcoming flights: </h2>
+
+    <table id="hor-minimalist-a">
+        <th>Departure Airport</th>
+        <th>Departure Time</th>
+        <th>Arrival Airport</th>
+        <th>Arrival Time</th>
+        <th>Status</th>
+
+
+    {% for line in flights %}
+        <tr>
+            <td>{{line.departure_airport}}</td>
+            <td>{{line.departure_time}}</td>
+            <td>{{line.arrival_airport}}</td>
+            <td>{{line.arrival_time}}</td>
+            <td>{{line.status}}</td>
+
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+
+
+{% for line in spending %}
+	<h2>Total spending in the past year: {{line.total}}</h2>
+{% endfor %}
+
+
+<canvas id="chart" width="600" height="400"></canvas>
+<script>
+   // bar chart data
+   var barData = {
+   labels : [{% for item in labels %}
+                  "{{item}}",
+              {% endfor %}],
+   datasets : [
+      {
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+         data : [{% for item in values %}
+                      {{item}},
+                    {% endfor %}]
+      }
+      ]
+   }
+
+   // get bar chart canvas
+   var mychart = document.getElementById("chart").getContext("2d");
+
+   steps = 10;
+   max = 15000;
+   // draw bar chart
+   new Chart(mychart).Bar(barData, {
+        scaleOverride: true,
+        scaleSteps: steps,
+        scaleStepWidth: Math.ceil(max / steps),
+        scaleStartValue: 0,
+        scaleShowVerticalLines: true,
+        scaleShowGridLines : true,
+        barShowStroke : true,
+        scaleShowLabels: true
+   });
+
+</script>
+
+<h2>View My Spending:</h2>
+<div>
+    <form action="/view_spending" method="POST" class="tm-search-form tm-section-pad-2">
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
+                <label for="5">Starts from:</label>
+                <input id="5" type="date" name = "start_date" class="form-control" placeholder="yyyy-mm-dd" required/> </br>
+            </div>
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
+                <label for="6">Ends at:</label>
+                <input id="6" type="date" name = "end_date" class="form-control" placeholder="yyyy-mm-dd" required/> </br>
+            </div>
+        </div>
+        <input type="submit" value = View />
+        {% if error %}
+            <p class="error"><strong>Error:</strong> {{error}}</p>
+        {% endif %}
+    </form>
+</div>
+
+<a href="/logout_c">Logout</a>
+
+</body>
+
+
+</html>

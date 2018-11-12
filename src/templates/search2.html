@@ -1,0 +1,52 @@
+<html>
+<head>
+<link href="../static/style.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="../static/font-awesome.css" rel="stylesheet"> <!-- Font-Awesome-Icons-CSS -->
+	<!-- //Custom Theme files -->
+
+	<!-- web font -->
+	<link href="//fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&amp;subset=latin-ext" rel="stylesheet">
+</head>
+<body>
+
+
+<!--<a href="/">Go back</a>-->
+
+<div class="main">
+		<h1>Air Ticket Reservation System</h1>
+		<div class="main-w3lsrow">
+			<!-- login form -->
+			<div class="login-form login-form-left">
+				<div class="agile-row">
+					<div class="head">
+						<h2>Search for Flights</h2>
+						<span class="fa fa-lock"></span>
+					</div>
+					<div class="clear"></div>
+
+                    {{ status }}
+                    <div class="login-agileits-top">
+                        <form action="/search_flight_login" method="POST">
+                            Departure Airport: <input type="text" name = "departure_airport" placeholder="airport name (e.g. PVG) or city (e.g. Shanghai)" required/> </br>
+                            Arrival Airport: <input type="text" name = "arrival_airport" placeholder="airport name (e.g. PVG) or city (e.g. Shanghai)" required/></br>
+                            Departure Date: <input type="date" name = "departure_date" placeholder="yyyy-mm-dd"/></br>
+                            <input type="submit" value = Search />
+                            {% if error %}
+                                <p class="error"><strong>Error:</strong> {{error}}</p>
+                            {% endif %}
+                        </form>
+                    </div>
+					<!--<div class="login-agileits-bottom">-->
+                        <!--<h6><a href="/">Go back</a></h6>-->
+					<!--</div>-->
+                </div>
+			</div>
+		</div>
+	</div>
+
+
+
+</body>
+
+
+</html>

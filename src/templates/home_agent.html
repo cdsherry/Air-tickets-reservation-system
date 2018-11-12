@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <script src='../static/Chart.min.js'></script>
+    <link href="../static/style_table.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../static/templatemo-style.css" rel="stylesheet" type="text/css" media="all" />
+
+</head>
+<body>
+
+<a href="search2">Search for flights</a>
+
+    <h2>Upcoming flights: </h2>
+
+<style type="text/css">
+	table, th, td{
+		border: 1px solid black;
+	}
+</style>
+
+
+<table id="hor-minimalist-a">
+	<th>Customer</th>
+    <th>Flight Number</th>
+	<th>Departure Airport</th>
+    <th>Departure Time</th>
+	<th>Arrival Airport</th>
+    <th>Arrival Time</th>
+    <th>Status</th>
+
+
+{% for line in flights %}
+	<tr>
+        <td>{{line.customer_email}}</td>
+        <td>{{line.flight_num}}</td>
+		<td>{{line.departure_airport}}</td>
+		<td>{{line.departure_time}}</td>
+		<td>{{line.arrival_airport}}</td>
+        <td>{{line.arrival_time}}</td>
+		<td>{{line.status}}</td>
+
+	</tr>
+{% endfor %}
+</table>
+
+
+    <h2>View Flights You Have Booked:</h2>
+
+<div>
+    <form action="/agent_view_flights" method="POST" class="tm-search-form tm-section-pad-2">
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
+                <label for="1">Departure Airport:</label>
+                <input id="1" type="text" name="departure_airport" class="form-control" placeholder="airport name or city" required/>
+            </div>
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-1">
+                <label for="4">Arrival Airport:</label>
+                <input id="4" type="text" name="arrival_airport" class="form-control" placeholder="airport name or city" required/>
+            </div>
+        </div>
+        <br><br><br><br><br>
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
+                <label for="2">Start on:</label>
+                <input id="2" name="departure_time" type="date" class="form-control" placeholder="yyyy-mm-dd" required>
+            </div>
+
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
+                <label for="3">Ends on:</label>
+                <input id="3" name="arrival_time" type="date" class="form-control" placeholder="yyyy-mm-dd" required>
+            </div>
+        </div>
+        <input type="submit" value= View />
+    </form>
+</div>
+
+    <h2>Total amounts of commission received in the past month (10% of total price of ticket bought): {{total_commission}}</h2>
+    <h2>Total amounts of tickets sold in the past month: {{total_tickets}}</h2>
+    <h2>Average commission received per ticket in the past month: {{avg_commission}}</h2>
+
+    <h2>Commission received within a range:</h2>
+
+<div>
+    <form action="/view_commission" method="POST" class="tm-search-form tm-section-pad-2">
+        <div class="form-row tm-search-form-row">
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
+                <label for="5">Start from:</label>
+                <input id="5" name="start_time" type="date" class="form-control" placeholder="yyyy-mm-dd" required>
+            </div>
+            <div class="form-group tm-form-group tm-form-group-pad tm-form-group-3">
+                <label for="6">Ends at:</label>
+                <input id="6" name="end_time" type="date" class="form-control" placeholder="yyyy-mm-dd" required>
+            </div>
+        </div>
+        <input type="submit" value= View />
+    </form>
+</div>
+
+
+    <h2>Top 5 customers (based on number of tickets bought from you) in the past 6 months:</h2>
+<canvas id="chart" width="600" height="400"></canvas>
+<script>
+   // bar chart data
+   var barData = {
+   labels : [{% for item in labels_1 %}
+                  "{{item}}",
+              {% endfor %}],
+   datasets : [
+      {
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+         data : [{% for item in values_1 %}
+                      {{item}},
+                    {% endfor %}]
+      }
+      ]
+   };
+
+   // get bar chart canvas
+   var mychart = document.getElementById("chart").getContext("2d");
+
+   steps = 10;
+   max = 10;
+   // draw bar chart
+   new Chart(mychart).Bar(barData, {
+        scaleOverride: true,
+        scaleSteps: steps,
+        scaleStepWidth: Math.ceil(max / steps),
+        scaleStartValue: 0,
+        scaleShowVerticalLines: true,
+        scaleShowGridLines : true,
+        barShowStroke : true,
+        scaleShowLabels: true
+   });
+</script>
+
+    <h2>Top 5 customers (based on amount of commission received) in the past year:</h2>
+<canvas id="chart2" width="600" height="400"></canvas>
+<script>
+   // bar chart data
+   var barData = {
+   labels : [{% for item in labels_2 %}
+                  "{{item}}",
+              {% endfor %}],
+   datasets : [
+      {
+            fillColor: "rgba(151,187,205,0.2)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+         data : [{% for item in values_2 %}
+                      {{item}},
+                    {% endfor %}]
+      }
+      ]
+   };
+
+   // get bar chart canvas
+   var mychart2 = document.getElementById("chart2").getContext("2d");
+
+   steps = 10;
+   max = 5000;
+   // draw bar chart
+   new Chart(mychart2).Bar(barData, {
+        scaleOverride: true,
+        scaleSteps: steps,
+        scaleStepWidth: Math.ceil(max / steps),
+        scaleStartValue: 0,
+        scaleShowVerticalLines: true,
+        scaleShowGridLines : true,
+        barShowStroke : true,
+        scaleShowLabels: true
+   });
+</script>
+
+<a href="/">Logout</a>
+
+</body>
+
+
+</html>

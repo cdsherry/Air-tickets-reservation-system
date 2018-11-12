@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/style_table.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../static/templatemo-style.css" rel="stylesheet" type="text/css" media="all" />
+
+    <title>View Flights of A Customer</title>
+
+</head>
+<body>
+{{ status }}
+<br>
+
+Flights for this customer in your airline:
+
+
+<table id="hor-minimalist-a">
+    <th>Flight Number</th>
+	<th>Departure Airport</th>
+    <th>Departure Time</th>
+	<th>Arrival Airport</th>
+    <th>Arrival Time</th>
+    <th>Status</th>
+
+
+{% for line in flights %}
+	<tr>
+        <td>{{line.flight_num}}</td>
+		<td>{{line.departure_airport}}</td>
+		<td>{{line.departure_time}}</td>
+		<td>{{line.arrival_airport}}</td>
+        <td>{{line.arrival_time}}</td>
+		<td>{{line.status}}</td>
+
+	</tr>
+{% endfor %}
+</table>
+
+</body>
+</html>
